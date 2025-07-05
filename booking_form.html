@@ -1,0 +1,49 @@
+<!-- templates/booking_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Tickets - Local Event Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🎟 Book Tickets</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Booking for {{ event['title'] }}</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Updated Form with Name and Email -->
+        <form method="post" class="form-card">
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="num_tickets">Number of Tickets:</label>
+            <input type="number" name="num_tickets" id="num_tickets" required min="1" max="{{ event['available_seats'] }}">
+
+            <button type="submit" class="btn">Book Tickets</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>

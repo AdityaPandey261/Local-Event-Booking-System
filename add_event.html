@@ -1,0 +1,61 @@
+<!-- templates/add_event.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Event - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>➕ Add New Event</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Event Details</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="post" class="form-card">
+            <label for="title">Event Title:</label>
+            <input type="text" name="title" id="title" required>
+
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" rows="4" required></textarea>
+
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+
+            <label for="time">Time:</label>
+            <input type="time" name="time" id="time" required>
+
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" required>
+
+            <label for="category">Category:</label>
+            <input type="text" name="category" id="category" required>
+
+            <label for="total_seats">Total Seats:</label>
+            <input type="number" name="total_seats" id="total_seats" required min="1">
+
+            <button type="submit" class="btn">Add Event</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>

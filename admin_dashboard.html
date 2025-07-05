@@ -1,0 +1,70 @@
+<!-- templates/admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Local Event Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📋 Admin Dashboard</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('add_event') }}">Add New Event</a>
+            <a href="{{ url_for('view_bookings') }}">View Bookings</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Manage Events</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if events %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Seats</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event['title'] }}</td>
+                        <td>{{ event['date'] }}</td>
+                        <td>{{ event['time'] }}</td>
+                        <td>{{ event['location'] }}</td>
+                        <td>{{ event['available_seats'] }}/{{ event['total_seats'] }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('delete_event', event_id=event['id']) }}" onsubmit="return confirm('Are you sure to delete this event?');">
+                                <button type="submit" class="btn danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No events available.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>

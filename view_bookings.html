@@ -1,0 +1,65 @@
+<!-- templates/view_bookings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Bookings - Local Event Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📑 View Bookings</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Booking Details</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if bookings %}
+            <h2>All Bookings</h2>
+<table>
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Event</th>
+            <th>Tickets</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.user_name }}</td>
+            <td>{{ booking.user_email }}</td>
+            <td>{{ booking.event_title }}</td>
+            <td>{{ booking.num_tickets }}</td>
+            <td>{{ booking.booking_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+        {% else %}
+            <p>No bookings available.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>

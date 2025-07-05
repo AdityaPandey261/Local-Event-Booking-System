@@ -1,0 +1,40 @@
+<!-- templates/event_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event['title'] }} - Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🎟 Event Details</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="event-detail">
+            <h2>{{ event['title'] }}</h2>
+            <p><strong>Date:</strong> {{ event['date'] }}</p>
+            <p><strong>Time:</strong> {{ event['time'] }}</p>
+            <p><strong>Location:</strong> {{ event['location'] }}</p>
+            <p><strong>Category:</strong> {{ event['category'] }}</p>
+            <p><strong>Description:</strong> {{ event['description'] }}</p>
+            <p><strong>Total Seats:</strong> {{ event['total_seats'] }}</p>
+            <p><strong>Available Seats:</strong> {{ event['available_seats'] }}</p>
+
+            {% if event['available_seats'] > 0 %}
+                <a class="btn" href="{{ url_for('book_event', event_id=event['id']) }}">Book Now</a>
+            {% else %}
+                <p class="error">Sold Out</p>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>

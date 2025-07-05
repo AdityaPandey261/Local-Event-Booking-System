@@ -1,0 +1,52 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Event Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🎉 Local Event Finder</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/admin">Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Upcoming Events</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if events %}
+            <div class="event-list">
+                {% for event in events %}
+                    <div class="event-card">
+                        <h3>{{ event['title'] }}</h3>
+                        <p><strong>Date:</strong> {{ event['date'] }} | <strong>Time:</strong> {{ event['time'] }}</p>
+                        <p><strong>Location:</strong> {{ event['location'] }}</p>
+                        <p><strong>Category:</strong> {{ event['category'] }}</p>
+                        <p>{{ event['description']|truncate(100) }}</p>
+                        <a class="btn" href="{{ url_for('event_detail', event_id=event['id']) }}">View Details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No events found!</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>© 2025 Local Event Finder</p>
+    </footer>
+</body>
+</html>
